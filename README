@@ -1,0 +1,13 @@
+This repository contains scripts for the automatic creation of wifibroadcast RX and TX images.
+
+The following assumes Ubuntu 14.04.
+
+
+Prerequisites: sudo apt-get install qemu qemu-user-static binfmt-support
+
+
+To build the images run: ./build_images.sh
+
+
+After the scripts are done, you find an RX and TX image under data/.
+
