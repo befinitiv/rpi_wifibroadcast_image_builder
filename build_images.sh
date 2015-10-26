@@ -12,14 +12,22 @@ BASE_IMAGE="2015-05-05-raspbian-wheezy"
 
 
 function patch_rpi_image {
-	#make a copy of the image to RX
+	#make a copy of the base image
 	IMAGE_FILE="$1"
 	INSTALL_SCRIPT="$2"
 	cp data/$BASE_IMAGE".img" $IMAGE_FILE
 
 	#mount the image
 	mkdir -p data/mnt
+	# rootfs
 	sudo mount "$IMAGE_FILE" -o loop,offset=$((122880*512)),rw data/mnt
+	# boot
+	sudo mount $IMAGE_FILE -o loop,offset=$((8192*512)),rw data/mnt/boot
+
+
+
+	#install qemu
+	sudo cp /usr/bin/qemu-arm-static data/mnt/usr/bin
 
 	#clear the preload file
 	sudo cp data/mnt/etc/ld.so.preload data/mnt/root
@@ -29,6 +37,7 @@ function patch_rpi_image {
 	sudo chroot --userspec=1000:1000 data/mnt /bin/bash "/home/pi/$INSTALL_SCRIPT"
 
 	sudo cp data/mnt/root/ld.so.preload data/mnt/etc/ld.so.preload
+	sudo umount data/mnt/boot
 	sudo umount data/mnt
 }
 
