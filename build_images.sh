@@ -15,7 +15,7 @@ function patch_rpi_image {
 	#make a copy of the base image
 	IMAGE_FILE="$1"
 	INSTALL_SCRIPT="$2"
-	cp data/$BASE_IMAGE".img" $IMAGE_FILE
+#	cp data/$BASE_IMAGE".img" $IMAGE_FILE
 
 	#mount the image
 	mkdir -p data/mnt
@@ -43,25 +43,29 @@ function patch_rpi_image {
 	sudo umount data/mnt
 }
 
+function download_image {
+	#first, download raspian image
+	pushd $PWD
 
+	mkdir -p data
+	cd data
 
-
-
-
-#first, download raspian image
-mkdir -p data
-cd data
-
-if [ ! -f $BASE_IMAGE".img" ]
-then
-	if [ ! -f $BASE_IMAGE".zip" ]
+	if [ ! -f $BASE_IMAGE".img" ]
 	then
-		wget $BASE_IMAGE_URL/$BASE_IMAGE".zip"
+		if [ ! -f $BASE_IMAGE".zip" ]
+		then
+			wget $BASE_IMAGE_URL/$BASE_IMAGE".zip"
+		fi
+		unzip $BASE_IMAGE".zip"
 	fi
-	unzip $BASE_IMAGE".zip"
-fi
 
-cd ..
+	popd
+}
+
+
+download_image
+
+
 
 RX_IMAGE_FILE="data/RX_$BASE_IMAGE"".img"
 RX_INSTALL_SCRIPT="rx_install_script.sh"
