@@ -54,7 +54,10 @@ cd data
 
 if [ ! -f $BASE_IMAGE".img" ]
 then
-	wget $BASE_IMAGE_URL/$BASE_IMAGE".zip"
+	if [ ! -f $BASE_IMAGE".zip" ]
+	then
+		wget $BASE_IMAGE_URL/$BASE_IMAGE".zip"
+	fi
 	unzip $BASE_IMAGE".zip"
 fi
 
