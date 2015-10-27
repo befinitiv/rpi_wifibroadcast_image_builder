@@ -35,3 +35,11 @@ sudo update-rc.d shutdown start
 #disable sync option for usbmount
 sudo sed -i 's/sync,//g' /etc/usbmount/usbmount.conf
 
+#change hostname
+CURRENT_HOSTNAME=`sudo cat /etc/hostname | sudo tr -d " \t\n\r"`
+NEW_HOSTNAME="wifibroadcastrx"
+if [ $? -eq 0 ]; then
+  sudo sh -c "echo '$NEW_HOSTNAME' > /etc/hostname"
+  sudo sed -i "s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts
+fi
+echo "Changing hostname from $CURRENT_HOSTNAME to $NEW_HOSTNAME"
