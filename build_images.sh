@@ -34,6 +34,7 @@ function patch_rpi_image {
 	sudo cp /dev/null data/mnt/etc/ld.so.preload
 
 	cp $INSTALL_SCRIPT data/mnt/home/pi
+	sudo mount --bind /etc/resolv.conf data/mnt/etc/resolv.conf
 	sudo chroot --userspec=1000:1000 data/mnt /bin/bash "/home/pi/$INSTALL_SCRIPT"
 
 	sudo cp data/mnt/root/ld.so.preload data/mnt/etc/ld.so.preload
