@@ -42,7 +42,7 @@ if [ -e /etc/profile.d/boottoscratch.sh ]; then
   sudo sed -i /etc/inittab \
     -e "s/^#\(.*\)#\s*BTS_TO_ENABLE\s*/\1/" \
     -e "/#\s*BTS_TO_DISABLE/d"
-  telinit q
+  sudo telinit q
 fi
 
 #change hostname
