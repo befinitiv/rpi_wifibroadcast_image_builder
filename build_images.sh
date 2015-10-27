@@ -15,7 +15,7 @@ function patch_rpi_image {
 	#make a copy of the base image
 	IMAGE_FILE="$1"
 	INSTALL_SCRIPT="$2"
-#	cp data/$BASE_IMAGE".img" $IMAGE_FILE
+	cp data/$BASE_IMAGE".img" $IMAGE_FILE
 
 	#mount the image
 	mkdir -p data/mnt
@@ -46,8 +46,6 @@ function patch_rpi_image {
 function download_image {
 	#first, download raspian image
 	pushd $PWD
-
-	mkdir -p data
 	cd data
 
 	if [ ! -f $BASE_IMAGE".img" ]
@@ -61,6 +59,55 @@ function download_image {
 
 	popd
 }
+
+function download_kernel_and_tools {
+	pushd $PWD
+	cd data
+	
+	mkdir -p kernel
+	cd kernel
+
+	if [ ! -d tools ]
+	then
+		git clone https://github.com/raspberrypi/tools
+	fi
+
+	if [ ! -d linux ]
+	then
+		git clone --depth=1 https://github.com/raspberrypi/linux
+	fi
+
+	popd
+}
+
+function compile_kernel {	
+	export PATH=$PATH:"`pwd`/data/kernel/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin"
+
+	pushd $PWD
+	cd data/kernel/linux
+	echo $PATH
+
+	#TODO add RPI2 support
+	KERNEL=kernel ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make bcmrpi_defconfig
+	KERNEL=kernel ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make -j4 zImage modules dtbs
+
+	popd
+}
+
+
+
+mkdir -p data
+
+
+download_kernel_and_tools
+
+#TODO add kernel patch function that gathers patches and applies them
+
+compile_kernel
+
+
+
+
 
 
 download_image
