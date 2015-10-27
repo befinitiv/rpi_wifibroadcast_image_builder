@@ -39,6 +39,7 @@ function patch_rpi_image {
 
 	sudo cp data/mnt/root/ld.so.preload data/mnt/etc/ld.so.preload
 	sudo umount data/mnt/boot
+	sudo umount data/mnt/etc/resolv.conf
 	sudo umount data/mnt
 }
 
