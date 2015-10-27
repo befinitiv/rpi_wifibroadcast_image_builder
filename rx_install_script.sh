@@ -52,3 +52,6 @@ if [ $? -eq 0 ]; then
   sudo sh -c "echo '$NEW_HOSTNAME' > /etc/hostname"
   sudo sed -i "s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts
 fi
+
+#remove script that starts raspi config on first boot
+sudo rm -rf /etc/profile.d/raspi-config.sh
