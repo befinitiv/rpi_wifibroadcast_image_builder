@@ -19,6 +19,12 @@ cd /opt/vc/src/hello_pi/
 sudo ./rebuild.sh
 
 
+#install osd (needs to be enabled manually)
+cd /home/pi
+hg clone https://bitbucket.org/befi/frsky_omx_osd
+cd frsky_omx_osd
+sudo make
+
 
 #install startup scripts
 cd /home/pi
