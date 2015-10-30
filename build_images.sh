@@ -133,6 +133,9 @@ function patch_rpi_image {
 	hg summary > "$MNT_DIR/home/pi/rpi_wifibroadcast_image_builder_version.txt"
 	hg diff >> "$MNT_DIR/home/pi/rpi_wifibroadcast_image_builder_version.txt"
 
+	#change the /etc/network/interfaces file so that wpa_suppl does not mess around
+	sudo bash -c "echo -e \"auto lo\niface lo inet loopback\nauto eth0\nallow-hotplug eth0\niface eth0 inet manual\niface wlan0 inet manual\niface wlan1 inet manual\niface wlan2 inet manual\" > \"$MNT_DIR/etc/network/interfaces\""
+
 	cp $INSTALL_SCRIPT "$MNT_DIR/home/pi"
 	sudo mount --bind /etc/resolv.conf "$MNT_DIR/etc/resolv.conf"
 	sudo chroot --userspec=1000:1000 "$MNT_DIR" /bin/bash "/home/pi/$INSTALL_SCRIPT"
