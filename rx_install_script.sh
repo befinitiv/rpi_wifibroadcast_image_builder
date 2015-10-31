@@ -43,16 +43,6 @@ sudo update-rc.d shutdown start
 #disable sync option for usbmount
 sudo sed -i 's/sync,//g' /etc/usbmount/usbmount.conf
 
-#disable desktop
-[ -e /etc/init.d/lightdm ] && sudo update-rc.d lightdm disable 2
-if [ -e /etc/profile.d/boottoscratch.sh ]; then
-  sudo rm -f /etc/profile.d/boottoscratch.sh
-  sudo sed -i /etc/inittab \
-    -e "s/^#\(.*\)#\s*BTS_TO_ENABLE\s*/\1/" \
-    -e "/#\s*BTS_TO_DISABLE/d"
-  sudo telinit q
-fi
-
 #change hostname
 CURRENT_HOSTNAME=`sudo cat /etc/hostname | sudo tr -d " \t\n\r"`
 NEW_HOSTNAME="wifibroadcastrx"
@@ -62,8 +52,8 @@ if [ $? -eq 0 ]; then
 fi
 
 
-#always enable HDMI
-sudo bash -c 'echo -e "\nhdmi_force_hotplug=1\nhdmi_drive=2\n" > /boot/config.txt'
+#always enable HDMI at 720p
+sudo bash -c 'echo -e "\nhdmi_force_hotplug=1\nhdmi_drive=2\nhdmi_group=1\nhdmi_mode=4\n" >> /boot/config.txt'
 
 
 #remove script that starts raspi config on first boot

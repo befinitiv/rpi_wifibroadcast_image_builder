@@ -25,8 +25,7 @@ sudo cp init.d/wbctxd /etc/init.d
 sudo update-rc.d wbctxd start
 
 #enable camera
-sudo bash -c "echo \"gpu_mem=128\" >> /boot/config.txt"
-sudo bash -c "echo \"start_x=1\" >> /boot/config.txt"
+sudo bash -c 'echo -e "\ngpu_mem=128\nstart_x=1\n" >> /boot/config.txt'
 
 #change hostname
 CURRENT_HOSTNAME=`sudo cat /etc/hostname | sudo tr -d " \t\n\r"`
