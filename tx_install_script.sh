@@ -4,6 +4,8 @@ set -e
 
 sudo apt-get update
 sudo apt-get -y install mercurial libpcap-dev iw usbmount
+#remove desktop stuff
+sudo apt-get -y remove --auto-remove --purge libx11-.*
 
 #install wifibroadcast
 cd /home/pi
@@ -25,16 +27,6 @@ sudo update-rc.d wbctxd start
 #enable camera
 sudo bash -c "echo \"gpu_mem=128\" >> /boot/config.txt"
 sudo bash -c "echo \"start_x=1\" >> /boot/config.txt"
-
-#disable desktop
-[ -e /etc/init.d/lightdm ] && sudo update-rc.d lightdm disable 2
-if [ -e /etc/profile.d/boottoscratch.sh ]; then
-  sudo rm -f /etc/profile.d/boottoscratch.sh
-  sudo sed -i /etc/inittab \
-    -e "s/^#\(.*\)#\s*BTS_TO_ENABLE\s*/\1/" \
-    -e "/#\s*BTS_TO_DISABLE/d"
-  sudo telinit q
-fi
 
 #change hostname
 CURRENT_HOSTNAME=`sudo cat /etc/hostname | sudo tr -d " \t\n\r"`

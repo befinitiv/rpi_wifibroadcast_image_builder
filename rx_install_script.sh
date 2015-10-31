@@ -4,6 +4,8 @@ set -e
 
 sudo apt-get update
 sudo apt-get -y install mercurial libpcap-dev iw usbmount
+sudo apt-get -y remove --auto-remove --purge libx11-.*
+
 
 #install wifibroadcast
 cd /home/pi
@@ -58,6 +60,11 @@ if [ $? -eq 0 ]; then
   sudo sh -c "echo '$NEW_HOSTNAME' > /etc/hostname"
   sudo sed -i "s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts
 fi
+
+
+#always enable HDMI
+sudo bash -c 'echo -e "\nhdmi_force_hotplug=1\nhdmi_drive=2\n" > /boot/config.txt'
+
 
 #remove script that starts raspi config on first boot
 sudo rm -rf /etc/profile.d/raspi-config.sh
