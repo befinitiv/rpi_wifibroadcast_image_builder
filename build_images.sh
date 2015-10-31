@@ -152,6 +152,10 @@ function patch_rpi_image {
 	sudo umount -l "$MNT_DIR"
 }
 
+#parameters output file name, input files
+function zip_image {
+	zip $1 $2
+}
 
 
 
@@ -169,11 +173,12 @@ compile_kernel
 #prepare the images
 download_image
 
-RX_IMAGE_FILE="data/RX_$BASE_IMAGE"".img"
+RX_IMAGE_FILE="$DATA_DIR/RX_$BASE_IMAGE"".img"
 RX_INSTALL_SCRIPT="rx_install_script.sh"
 patch_rpi_image "$RX_IMAGE_FILE" "$RX_INSTALL_SCRIPT"
+zip_image "$DATA_DIR/RX_$BASE_IMAGE"".zip" "$RX_IMAGE_FILE"
 
 TX_IMAGE_FILE="$DATA_DIR/TX_$BASE_IMAGE"".img"
 TX_INSTALL_SCRIPT="tx_install_script.sh"
 patch_rpi_image "$TX_IMAGE_FILE" "$TX_INSTALL_SCRIPT"
-
+zip_image "$DATA_DIR/TX_$BASE_IMAGE"".zip" "$TX_IMAGE_FILE"
