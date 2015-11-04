@@ -32,13 +32,12 @@ sudo make
 cd /home/pi
 hg clone https://bitbucket.org/befi/wifibroadcast_fpv_scripts
 cd wifibroadcast_fpv_scripts
-sudo cp init.d/wbcrxd /etc/init.d
-sudo update-rc.d wbcrxd start
+sudo cp systemd/*.service /etc/systemd/system
 
-#enable shutdown switch
-sudo cp init.d/shutdown /etc/init.d
-sudo update-rc.d shutdown start
-
+#enable wifibroadcast, osd and shutdown pin
+sudo systemctl enable wbcrxd
+sudo systemctl enable osd
+sudo systemctl enable shutdown
 
 #disable sync option for usbmount
 sudo sed -i 's/sync,//g' /etc/usbmount/usbmount.conf

@@ -21,8 +21,11 @@ sudo cp "patches/AR9271/firmware/htc_9271.fw" "/lib/firmware"
 cd /home/pi
 hg clone https://bitbucket.org/befi/wifibroadcast_fpv_scripts
 cd wifibroadcast_fpv_scripts
-sudo cp init.d/wbctxd /etc/init.d
-sudo update-rc.d wbctxd start
+
+sudo cp systemd/*.service /etc/systemd/system
+
+#enable wifibroadcast 
+sudo systemctl enable wbctxd
 
 #enable camera
 sudo bash -c 'echo -e "\ngpu_mem=128\nstart_x=1\n" >> /boot/config.txt'
