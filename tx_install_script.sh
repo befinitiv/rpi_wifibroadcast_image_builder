@@ -3,7 +3,7 @@
 set -e
 
 sudo apt-get update
-sudo apt-get -y install mercurial libpcap-dev iw usbmount
+sudo apt-get -y install vim mercurial libpcap-dev iw usbmount
 #remove desktop stuff
 sudo apt-get -y remove --auto-remove --purge libx11-.*
 
