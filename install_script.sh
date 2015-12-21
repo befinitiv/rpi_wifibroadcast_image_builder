@@ -7,14 +7,15 @@ sudo apt-get -y install vim mercurial libpcap-dev iw usbmount
 sudo apt-get -y remove --auto-remove --purge libx11-.*
 
 
-#install new firmware
-sudo cp "patches/AR9271/firmware/htc_9271.fw" "/lib/firmware"
 
 #install wifibroadcast
 cd /home/pi
 hg clone https://bitbucket.org/befi/wifibroadcast
 cd wifibroadcast
 make
+
+#install new firmware
+sudo cp "patches/AR9271/firmware/htc_9271.fw" "/lib/firmware"
 
 #patch hello_video
 cd /home/pi
